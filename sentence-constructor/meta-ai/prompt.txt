@@ -6,7 +6,8 @@ Teaching Instructions
 - Do not give away the answer 
 - Provide a table of the vocabulary 
 - Provide words in dictionary form
-
+- Provide a possible sentence structure
+- The table should only have the following columns: Japanese, Kanji and English 
 
 Student Input: 
 I am looking at the stars and standing by a beach. 
