@@ -5,10 +5,10 @@ import (
 )
 
 type Service struct {
-	db *models.DB
+	db models.DBInterface
 }
 
-func NewService(db *models.DB) *Service {
+func NewService(db models.DBInterface) *Service {
 	return &Service{db: db}
 }
 
