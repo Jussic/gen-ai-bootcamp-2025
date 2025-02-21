@@ -5,17 +5,32 @@ services:
   ollama-server:
     image: ollama/ollama
     container_name: ollama-server
+    user: "${UID:-1000}:${GID:-1000}"
+    restart: unless-stopped
     ports:
       - ${LLM_ENDPOINT_PORT:-8008}:11434
     environment:
-      no_proxy: ${no_proxy}
-      http_proxy: ${http_proxy}
-      https_proxy: ${https_proxy}
-      LLM_MODEL_ID: ${LLM_MODEL_ID}
-      host_ip: ${host_ip}
+      no_proxy: ${no_proxy:-localhost,127.0.0.1}
+      http_proxy: ${http_proxy:-}
+      https_proxy: ${https_proxy:-}
+      LLM_MODEL_ID: ${LLM_MODEL_ID:-llama2}
+      host_ip: ${host_ip:-127.0.0.1}
+    volumes:
+      - ollama-data:/root/.ollama
+    deploy:
+      resources:
+        limits:
+          memory: 16G
+          cpus: '4'
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:11434/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
 networks:
   default:
     driver: bridge
 
-    
+volumes:
+  ollama-data:
